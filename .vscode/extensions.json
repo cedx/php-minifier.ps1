@@ -1,0 +1,7 @@
+{
+	"recommendations": [
+		"bmewburn.vscode-intelephense-client",
+		"ms-vscode.powershell",
+		"redhat.vscode-xml"
+	]
+}
