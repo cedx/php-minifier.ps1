@@ -10,7 +10,7 @@ Describe "SafeTransformer" {
 		AfterAll { $transformer.Dispose() }
 
 		It "should remove the inline comments" {
-			$transformer.Transform("res/Sample.php") | Should -BeLikeExactly "*<`?= 'Hello World2!' `?>*"
+			$transformer.Transform("res/Sample.php") | Should -BeLikeExactly "*<`?= 'Hello World!' `?>*"
 		}
 
 		It "remove the multi-line comments" {
