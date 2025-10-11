@@ -1,0 +1,15 @@
+name: continuous-integration
+on: push
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch sources
+        uses: actions/checkout@v4
+      - name: Run tests
+        run: ./run.ps1 Test
