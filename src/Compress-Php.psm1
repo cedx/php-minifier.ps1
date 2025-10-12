@@ -13,31 +13,24 @@ enum TransformMode {
 <#
 .SYNOPSIS
 	Minifies PHP source code by removing comments and whitespace.
-
 .PARAMETER $path
-	The path to the input directory.
-
+	The path to the input file or directory.
 .PARAMETER $destinationPath
 	The path to the output directory.
-
 .PARAMETER $binary
 	The path to the PHP executable.
-
 .PARAMETER $extension
 	The extension of the PHP files to process.
-
 .PARAMETER $mode
 	The operation mode of the minifier.
-
 .PARAMETER $quiet
 	Whether to silence the minifier output.
-
 .PARAMETER $recurse
 	Whether to process the input directory recursively.
 #>
 function Compress-Php {
 	param (
-		[Parameter(Mandatory, Position = 0)] [string] $path,
+		[Parameter(Mandatory, Position = 0)] [ValidateScript({ Test-Path $_ })] [string] $path,
 		[Parameter(Mandatory, Position = 1)] [string] $destinationPath,
 		[string] $binary = "php",
 		[string] $extension = "php",
@@ -55,3 +48,5 @@ function Compress-Php {
 		$transformer.Dispose()
 	}
 }
+
+Export-ModuleMember -Function Compress-Php

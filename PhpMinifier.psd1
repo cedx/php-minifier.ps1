@@ -1,6 +1,6 @@
 ﻿@{
 	ModuleVersion = "0.1.0"
-	RootModule = "src/Main.psm1"
+	RootModule = "src/Compress-Php.psm1"
 
 	Author = "Cédric Belin <cedx@outlook.com>"
 	CompanyName = "Cedric-Belin.fr"
@@ -17,9 +17,9 @@
 	# RequiredModules = @()
 
 	ScriptsToProcess = @(
-		# TODO ??? "Transformer.ps1"
-		# "FastTransformer.ps1"
-		# "SafeTransformer.ps1"
+		# TODO ??? "Transformer.psm1"
+		# "FastTransformer.psm1"
+		# "SafeTransformer.psm1"
 	)
 
 	# Type files (.ps1xml) to be loaded when importing this module
