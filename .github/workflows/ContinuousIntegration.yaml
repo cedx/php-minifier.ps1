@@ -12,4 +12,4 @@ jobs:
       - name: Fetch sources
         uses: actions/checkout@v4
       - name: Run tests
-        run: ./run.ps1 Test
+        run: ./invoke.ps1 Test
