@@ -12,6 +12,12 @@ class FastTransformer: Transformer {
 
 	<#
 	.SYNOPSIS
+		The base URL of the remote endpoint.
+	#>
+	hidden [uri] $endPoint
+
+	<#
+	.SYNOPSIS
 		The HTTP client used to query the PHP process.
 	#>
 	hidden [HttpClient] $httpClient
@@ -42,10 +48,8 @@ class FastTransformer: Transformer {
 		Releases any resources associated with this object.
 	#>
 	[void] Dispose() {
-		$this.httpClient?.Dispose()
-		$this.httpClient = $null
 		if ($this.job) { Remove-Job $this.job -Force }
-		$this.job = $null
+		$this.endPoint = $this.job = $null
 	}
 
 	<#
@@ -56,12 +60,12 @@ class FastTransformer: Transformer {
 		[int] The TCP port used by the PHP process.
 	#>
 	[int] Listen() {
-		if ($this.job) { return $this.httpClient.BaseAddress.Port }
+		if ($this.job) { return $this.endPoint.Port }
 
 		$address = [ipaddress]::Loopback
 		$port = [FastTransformer]::GetPort()
 
-		$this.httpClient = [HttpClient]@{ BaseAddress = [uri] "http://${address}:$port/" }
+		$this.endPoint = "http://${address}:$port/"
 		$this.job = & $this.executable -S ${address}:$port -t (Join-Path $PSScriptRoot "../www") &
 		Start-Sleep 1
 		return $port
@@ -79,8 +83,8 @@ class FastTransformer: Transformer {
 	#>
 	[string] Transform([string] $file) {
 		$this.Listen()
-		$response = $this.httpClient.GetStringAsync("index.php?file=$([uri]::EscapeDataString((Resolve-Path $file)))")
-		return $response.GetAwaiter().GetResult()
+		$uri = [uri]::new($this.endPoint, "index.php?file=$([uri]::EscapeDataString((Resolve-Path $file)))")
+		return (Invoke-WebRequest $uri).Content
 	}
 
 	<#
@@ -99,7 +103,7 @@ class FastTransformer: Transformer {
 			return ([IPEndpoint] $tcpListener.LocalEndpoint).Port
 		}
 		finally {
-			($tcpListener -as [IDisposable])?.Dispose()
+			if ($tcpListener) { $tcpListener.Dispose() }
 		}
 	}
 }
