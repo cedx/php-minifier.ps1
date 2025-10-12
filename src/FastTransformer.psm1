@@ -49,7 +49,7 @@ class FastTransformer: Transformer {
 	.SYNOPSIS
 		Starts the underlying PHP process and begins accepting connections.
 	.OUTPUTS
-		[int] The TCP port used by the PHP process.
+		The TCP port used by the PHP process.
 	#>
 	[int] Listen() {
 		if ($this.job) { return $this.baseUri.Port }
@@ -69,7 +69,7 @@ class FastTransformer: Transformer {
 	.PARAMETER $file
 		The path to the PHP script.
 	.OUTPUTS
-		[string] The transformed script.
+		The transformed script.
 	#>
 	[string] Transform([string] $file) {
 		$this.Listen()
@@ -81,7 +81,7 @@ class FastTransformer: Transformer {
 	.SYNOPSIS
 		Gets an ephemeral TCP port chosen by the system.
 	.OUTPUTS
-		[int] The TCP port chosen by the system.
+		The TCP port chosen by the system.
 	#>
 	hidden static [int] GetPort() {
 		$tcpListener = $null

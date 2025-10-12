@@ -42,7 +42,7 @@ class Transformer: IDisposable {
 	.PARAMETER $file
 		The path to the PHP script.
 	.OUTPUTS
-		[string] The transformed script.
+		The transformed script.
 	#>
 	[string] Transform([string] $file) {
 		throw [NotImplementedException]::new()

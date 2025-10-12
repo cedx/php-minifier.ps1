@@ -32,7 +32,7 @@ class SafeTransformer: Transformer {
 	.PARAMETER $file
 		The path to the PHP script.
 	.OUTPUTS
-		[string] The transformed script.
+		The transformed script.
 	#>
 	[string] Transform([string] $file) {
 		return & $this.executable -w (Resolve-Path $file)
