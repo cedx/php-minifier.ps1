@@ -62,8 +62,12 @@ class FastTransformer: Transformer {
 		$address = [ipaddress]::Loopback
 		$port = [FastTransformer]::GetPort()
 
+		$startInfo = [ProcessStartInfo]::new($this.executable)
+		$startInfo.Arguments = "-S ${address}:$port -t $(Join-Path $PSScriptRoot "../www")"
+		$startInfo.CreateNoWindow = $true
+
 		$this.httpClient = [HttpClient]@{ BaseAddress = [uri] "http://${address}:$port/" }
-		$this.process = Start-Process $this.executable "-S ${address}:$port -t $(Join-Path $PSScriptRoot "../www")" -NoNewWindow -PassThru
+		$this.process = [Process]::Start($startInfo)
 		Start-Sleep 1
 		return $port
 	}
