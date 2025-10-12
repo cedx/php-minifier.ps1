@@ -1,25 +1,20 @@
 * text=auto
 .* text
 
-*.cake text
 *.config text
 *.cs text diff=csharp
 *.csproj text
 *.css text diff=css
-*.esproj text
 *.html text diff=html
 *.http text
 *.ini text
 *.iss text
-*.js text
 *.json text
 *.md text diff=markdown
 *.ps1 text
-*.scss text diff=css
 *.slnx text
 *.sql text
 *.svg text
-*.ts text
 *.txt text
 *.xml text
 *.yaml text
