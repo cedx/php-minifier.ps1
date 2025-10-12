@@ -1,7 +1,6 @@
 using namespace System.Diagnostics
 using namespace System.Net.Http
 using namespace System.Net.Sockets
-using namespace System.Threading.Tasks
 using module ./Transformer.psm1
 
 <#
