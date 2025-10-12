@@ -1,4 +1,5 @@
 using namespace System.Diagnostics
+using namespace System.Management.Automation
 using namespace System.Net.Http
 using namespace System.Net.Sockets
 using module ./Transformer.psm1
@@ -17,9 +18,9 @@ class FastTransformer: Transformer {
 
 	<#
 	.SYNOPSIS
-		The underlying PHP process.
+		The underlying PHP job.
 	#>
-	hidden [Process] $process
+	hidden [Job] $job
 
 	<#
 	.SYNOPSIS
@@ -43,9 +44,8 @@ class FastTransformer: Transformer {
 	[void] Dispose() {
 		$this.httpClient?.Dispose()
 		$this.httpClient = $null
-		$this.process?.Kill()
-		$this.process?.Dispose()
-		$this.process = $null
+		if ($this.job) { Remove-Job $this.job -Force }
+		$this.job = $null
 	}
 
 	<#
@@ -56,17 +56,13 @@ class FastTransformer: Transformer {
 		[int] The TCP port used by the PHP process.
 	#>
 	[int] Listen() {
-		if ($null -ne $this.process) { return $this.httpClient.BaseAddress.Port }
+		if ($this.job) { return $this.httpClient.BaseAddress.Port }
 
 		$address = [ipaddress]::Loopback
 		$port = [FastTransformer]::GetPort()
 
-		$startInfo = [ProcessStartInfo]::new($this.executable)
-		$startInfo.Arguments = "-S ${address}:$port -t $(Join-Path $PSScriptRoot "../www")"
-		$startInfo.CreateNoWindow = $true
-
 		$this.httpClient = [HttpClient]@{ BaseAddress = [uri] "http://${address}:$port/" }
-		$this.process = [Process]::Start($startInfo)
+		$this.job = & $this.executable -S ${address}:$port -t (Join-Path $PSScriptRoot "../www") &
 		Start-Sleep 1
 		return $port
 	}
