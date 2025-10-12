@@ -38,7 +38,6 @@ class SafeTransformer: Transformer {
 		[string] The transformed script.
 	#>
 	[string] Transform([string] $file) {
-		$standardOutput = Invoke-Command { & $this.executable -w (Resolve-Path $file) }
-		return $standardOutput.Trim()
+		return & $this.executable -w (Resolve-Path $file)
 	}
 }
