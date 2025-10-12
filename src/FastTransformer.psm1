@@ -84,8 +84,7 @@ class FastTransformer: Transformer {
 	#>
 	[string] Transform([string] $file) {
 		$this.Listen()
-		$path = [uri]::EscapeDataString((Resolve-Path $file))
-		$response = $this.httpClient.GetStringAsync("index.php?file=$($path)")
+		$response = $this.httpClient.GetStringAsync("index.php?file=$([uri]::EscapeDataString((Resolve-Path $file)))")
 		return $response.GetAwaiter().GetResult()
 	}
 
