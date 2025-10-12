@@ -21,7 +21,6 @@ class Transformer: IDisposable {
 	<#
 	.SYNOPSIS
 		Creates a new transformer.
-
 	.PARAMETER $executable
 		The path to the PHP executable.
 	#>
@@ -40,10 +39,8 @@ class Transformer: IDisposable {
 	<#
 	.SYNOPSIS
 		Processes a PHP script.
-
 	.PARAMETER $file
 		The path to the PHP script.
-
 	.OUTPUTS
 		[string] The transformed script.
 	#>

@@ -15,7 +15,6 @@ class SafeTransformer: Transformer {
 	<#
 	.SYNOPSIS
 		Creates a new safe transformer.
-
 	.PARAMETER $executable
 		The path to the PHP executable.
 	#>
@@ -30,10 +29,8 @@ class SafeTransformer: Transformer {
 	<#
 	.SYNOPSIS
 		Processes a PHP script.
-
 	.PARAMETER $file
 		The path to the PHP script.
-
 	.OUTPUTS
 		[string] The transformed script.
 	#>

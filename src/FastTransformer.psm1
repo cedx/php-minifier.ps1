@@ -12,15 +12,9 @@ class FastTransformer: Transformer {
 
 	<#
 	.SYNOPSIS
-		The base URL of the remote endpoint.
+		The base URL of the PHP service.
 	#>
-	hidden [uri] $endPoint
-
-	<#
-	.SYNOPSIS
-		The HTTP client used to query the PHP process.
-	#>
-	hidden [HttpClient] $httpClient
+	hidden [uri] $baseUri
 
 	<#
 	.SYNOPSIS
@@ -37,7 +31,6 @@ class FastTransformer: Transformer {
 	<#
 	.SYNOPSIS
 		Creates a new fast transformer.
-
 	.PARAMETER $executable
 		The path to the PHP executable.
 	#>
@@ -49,23 +42,22 @@ class FastTransformer: Transformer {
 	#>
 	[void] Dispose() {
 		if ($this.job) { Remove-Job $this.job -Force }
-		$this.endPoint = $this.job = $null
+		$this.baseUri = $this.job = $null
 	}
 
 	<#
 	.SYNOPSIS
 		Starts the underlying PHP process and begins accepting connections.
-
 	.OUTPUTS
 		[int] The TCP port used by the PHP process.
 	#>
 	[int] Listen() {
-		if ($this.job) { return $this.endPoint.Port }
+		if ($this.job) { return $this.baseUri.Port }
 
 		$address = [ipaddress]::Loopback
 		$port = [FastTransformer]::GetPort()
 
-		$this.endPoint = "http://${address}:$port/"
+		$this.baseUri = "http://${address}:$port/"
 		$this.job = & $this.executable -S ${address}:$port -t (Join-Path $PSScriptRoot "../www") &
 		Start-Sleep 1
 		return $port
@@ -74,23 +66,20 @@ class FastTransformer: Transformer {
 	<#
 	.SYNOPSIS
 		Processes a PHP script.
-
 	.PARAMETER $file
 		The path to the PHP script.
-
 	.OUTPUTS
 		[string] The transformed script.
 	#>
 	[string] Transform([string] $file) {
 		$this.Listen()
-		$uri = [uri]::new($this.endPoint, "index.php?file=$([uri]::EscapeDataString((Resolve-Path $file)))")
+		$uri = [uri]::new($this.baseUri, "index.php?file=$([uri]::EscapeDataString((Resolve-Path $file)))")
 		return (Invoke-WebRequest $uri).Content
 	}
 
 	<#
 	.SYNOPSIS
 		Gets an ephemeral TCP port chosen by the system.
-
 	.OUTPUTS
 		[int] The TCP port chosen by the system.
 	#>
