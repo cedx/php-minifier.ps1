@@ -9,20 +9,13 @@ Describe "SafeTransformer" {
 		BeforeAll { $transformer = [SafeTransformer]::new() }
 		AfterAll { $transformer.Dispose() }
 
-		It "should remove the inline comments" {
-			$transformer.Transform("res/Sample.php") | Should -BeLikeExactly "*<`?= 'Hello World!' `?>*"
-		}
-
-		It "remove the multi-line comments" {
-			$transformer.Transform("res/Sample.php") | Should -BeLikeExactly "*namespace dummy; class Dummy*"
-		}
-
-		It "should remove the single-line comments" {
-			$transformer.Transform("res/Sample.php") | Should -BeLikeExactly '*$className = get_class($this); return $className;*'
-		}
-
-		It "should remove the whitespace" {
-			$transformer.Transform("res/Sample.php") | Should -BeLikeExactly '*__construct() { $this->property*'
+		It "should remove comments and whitespace" -TestCases @(
+			@{ Expected = "<`?= 'Hello World!' `?>" }
+			@{ Expected = "namespace dummy; class Dummy" }
+			@{ Expected = '$className = get_class($this); return $className;' }
+			@{ Expected = '__construct() { $this->property' }
+		) {
+			$transformer.Transform("res/Sample.php") | Should -BeLikeExactly "*$expected*"
 		}
 	}
 }
