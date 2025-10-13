@@ -11,5 +11,7 @@ jobs:
     steps:
       - name: Fetch sources
         uses: actions/checkout@v4
+      - name: Install dependencies
+        run: Install-PSResource Pester -TrustRepository
       - name: Run tests
         run: ./invoke.ps1 Test
