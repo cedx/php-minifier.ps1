@@ -19,10 +19,10 @@ Describe "FastTransformer" {
 		AfterAll { $transformer.Dispose() }
 
 		It "should remove comments and whitespace" -TestCases @(
-			@{ Expected = "<`?= 'Hello World!' `?>" }
+			@{ Expected = "<?= 'Hello World!' ?>" }
 			@{ Expected = "namespace dummy; class Dummy" }
-			@{ Expected = '$className = get_class($this); return $className;' }
-			@{ Expected = '__construct() { $this->property' }
+			@{ Expected = "`$className = get_class(`$this); return `$className;" }
+			@{ Expected = "__construct() { `$this->property" }
 		) {
 			$transformer.Transform("res/Sample.php") | Should -BeLikeExactly "*$expected*"
 		}
