@@ -1,16 +1,24 @@
-using module ./Transformer.psm1
+using module ./ITransformer.psm1
 
 <#
 .SYNOPSIS
 	Removes comments and whitespace from a PHP script, by calling a PHP process.
 #>
-class SafeTransformer: Transformer {
+class SafeTransformer: ITransformer {
+
+	<#
+	.SYNOPSIS
+		The path to the PHP executable.
+	#>
+	hidden [string] $executable
 
 	<#
 	.SYNOPSIS
 		Creates a new safe transformer.
 	#>
-	SafeTransformer(): base() {}
+	SafeTransformer() {
+		$this.executable = "php"
+	}
 
 	<#
 	.SYNOPSIS
@@ -18,7 +26,9 @@ class SafeTransformer: Transformer {
 	.PARAMETER $executable
 		The path to the PHP executable.
 	#>
-	SafeTransformer([string] $executable): base($executable) {}
+	SafeTransformer([string] $executable) {
+		$this.executable = $executable
+	}
 
 	<#
 	.SYNOPSIS

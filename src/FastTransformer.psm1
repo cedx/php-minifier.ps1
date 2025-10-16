@@ -2,19 +2,25 @@ using namespace System.Diagnostics
 using namespace System.Management.Automation
 using namespace System.Net.Http
 using namespace System.Net.Sockets
-using module ./Transformer.psm1
+using module ./ITransformer.psm1
 
 <#
 .SYNOPSIS
 	Removes comments and whitespace from a PHP script, by calling a PHP process.
 #>
-class FastTransformer: Transformer {
+class FastTransformer: ITransformer {
 
 	<#
 	.SYNOPSIS
 		The base URL of the PHP service.
 	#>
 	hidden [uri] $baseUri
+
+	<#
+	.SYNOPSIS
+		The path to the PHP executable.
+	#>
+	hidden [string] $executable
 
 	<#
 	.SYNOPSIS
@@ -26,7 +32,9 @@ class FastTransformer: Transformer {
 	.SYNOPSIS
 		Creates a new fast transformer.
 	#>
-	FastTransformer(): base() {}
+	FastTransformer() {
+		$this.executable = "php"
+	}
 
 	<#
 	.SYNOPSIS
@@ -34,7 +42,9 @@ class FastTransformer: Transformer {
 	.PARAMETER $executable
 		The path to the PHP executable.
 	#>
-	FastTransformer([string] $executable): base($executable) {}
+	FastTransformer([string] $executable) {
+		$this.executable = $executable
+	}
 
 	<#
 	.SYNOPSIS

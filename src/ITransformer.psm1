@@ -2,31 +2,7 @@
 .SYNOPSIS
 	Removes comments and whitespace from a PHP script.
 #>
-class Transformer: IDisposable {
-
-	<#
-	.SYNOPSIS
-		The path to the PHP executable.
-	#>
-	hidden [string] $executable
-
-	<#
-	.SYNOPSIS
-		Creates a new transformer.
-	#>
-	Transformer() {
-		$this.executable = "php"
-	}
-
-	<#
-	.SYNOPSIS
-		Creates a new transformer.
-	.PARAMETER $executable
-		The path to the PHP executable.
-	#>
-	Transformer([string] $executable) {
-		$this.executable = $executable
-	}
+class ITransformer: IDisposable {
 
 	<#
 	.SYNOPSIS
