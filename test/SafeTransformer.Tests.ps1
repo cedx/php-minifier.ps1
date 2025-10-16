@@ -5,7 +5,7 @@ using module ../src/SafeTransformer.psm1
 	Tests the features of the `SafeTransformer` class.
 #>
 Describe "SafeTransformer" {
-	Describe "Transform()" {
+	Describe "Transform" {
 		BeforeAll { $transformer = [SafeTransformer]::new() }
 		AfterAll { $transformer.Dispose() }
 
