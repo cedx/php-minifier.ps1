@@ -6,14 +6,6 @@ class ITransformer: IDisposable {
 
 	<#
 	.SYNOPSIS
-		Prevents instantiation of the class.
-	#>
-	hidden ITransformer() {
-		throw [NotSupportedException]::new()
-	}
-
-	<#
-	.SYNOPSIS
 		Releases any resources associated with this object.
 	#>
 	[void] Dispose() {
