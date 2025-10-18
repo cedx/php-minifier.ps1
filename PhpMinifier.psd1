@@ -13,26 +13,11 @@
 	FunctionsToExport = @()
 	VariablesToExport = @()
 
-	# TODO ???
-	# RequiredModules = @()
-
-	ScriptsToProcess = @(
-		# TODO ??? "Transformer.psm1"
-		# "FastTransformer.psm1"
-		# "SafeTransformer.psm1"
+	NestedModules = @(
+		"src/FastTransformer.psm1"
+		"src/ITransformer.psm1"
+		"src/SafeTransformer.psm1"
 	)
-
-	# Type files (.ps1xml) to be loaded when importing this module
-	# TypesToProcess = @()
-
-	# Format files (.ps1xml) to be loaded when importing this module
-	# FormatsToProcess = @()
-
-	# List of all modules packaged with this module
-	# ModuleList = @()
-
-	# List of all files packaged with this module
-	# FileList = @("www/index.php")
 
 	PrivateData = @{
 		PSData = @{
