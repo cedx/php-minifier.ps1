@@ -1,6 +1,6 @@
 ﻿@{
 	ModuleVersion = "0.1.0"
-	RootModule = "src/Compress-Php.psm1"
+	RootModule = "src/Main.psm1"
 
 	Author = "Cédric Belin <cedx@outlook.com>"
 	CompanyName = "Cedric-Belin.fr"
@@ -17,6 +17,7 @@
 		"src/FastTransformer.psm1"
 		"src/ITransformer.psm1"
 		"src/SafeTransformer.psm1"
+		"src/TransformMode.psm1"
 	)
 
 	PrivateData = @{

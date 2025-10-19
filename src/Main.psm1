@@ -3,15 +3,6 @@ using module ./SafeTransformer.psm1
 
 <#
 .SYNOPSIS
-	The operation mode of the minifier.
-#>
-enum TransformMode {
-	Fast
-	Safe
-}
-
-<#
-.SYNOPSIS
 	Minifies PHP source code by removing comments and whitespace.
 .PARAMETER $path
 	The path to the input file or directory.
@@ -29,24 +20,30 @@ enum TransformMode {
 	Whether to process the input directory recursively.
 #>
 function Compress-Php {
+	[OutputType([void])]
 	param (
 		[Parameter(Mandatory, Position = 0)] [ValidateScript({ Test-Path $_ })] [string] $path,
-		[Parameter(Mandatory, Position = 1)] [string] $destinationPath,
-		[string] $binary = "php",
-		[string] $extension = "php",
+		[Parameter(Mandatory, Position = 1)] [ValidateScript({ Test-Path $_ -IsValid })] [string] $destinationPath,
+		[ValidateNotNullOrWhiteSpace()] [string] $binary = "php",
+		[ValidateNotNullOrWhiteSpace()] [string] $extension = "php",
 		[TransformMode] $mode = [TransformMode]::Safe,
 		[switch] $quiet,
 		[switch] $recurse
 	)
+
 	begin {
-		$transformer = $mode -eq [TransformMode]::Fast ? [FastTransformer]::new($binary) : [SafeTransformer]::new($binary)
+		$transformer = $mode -eq [TransformMode]::Fast ? [FastTransformer] $binary : [SafeTransformer] $binary
 	}
 	process {
-		#TODO
+		$isFilePath = Test-Path $path -PathType Leaf
+		if (-not $destinationPath) { $destinationPath = $isFilePath ? (Split-Path $path) : $path }
+
+		$files = $isFilePath ? @($path) : (Get-ChildItem "$path/*.$extension" -Recurse=$recurse)
+		foreach ($file in $files) {
+			$relativePath = Resolve-Path $file -Relative -RelativeBasePath $path
+		}
 	}
 	clean {
 		$transformer.Dispose()
 	}
 }
-
-Export-ModuleMember -Function Compress-Php
