@@ -2,10 +2,10 @@ using module ../src/SafeTransformer.psm1
 
 <#
 .SYNOPSIS
-	Tests the features of the `SafeTransformer` class.
+	Tests the features of the `SafeTransformer` module.
 #>
 Describe "SafeTransformer" {
-	Describe "Transform" {
+	Context "Transform" {
 		BeforeAll { $transformer = [SafeTransformer]::new() }
 		AfterAll { $transformer.Dispose() }
 

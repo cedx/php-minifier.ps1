@@ -2,10 +2,10 @@ using module ../src/FastTransformer.psm1
 
 <#
 .SYNOPSIS
-	Tests the features of the `FastTransformer` class.
+	Tests the features of the `FastTransformer` module.
 #>
 Describe "FastTransformer" {
-	Describe "Listen" {
+	Context "Listen" {
 		It "should not throw, even if called several times" {
 			$transformer = [FastTransformer]::new()
 			{ $transformer.Listen() } | Should -Not -Throw
@@ -14,7 +14,7 @@ Describe "FastTransformer" {
 		}
 	}
 
-	Describe "Transform" {
+	Context "Transform" {
 		BeforeAll { $transformer = [FastTransformer]::new() }
 		AfterAll { $transformer.Dispose() }
 
