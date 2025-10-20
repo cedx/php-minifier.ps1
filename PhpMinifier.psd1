@@ -5,13 +5,17 @@
 	Author = "Cédric Belin <cedx@outlook.com>"
 	CompanyName = "Cedric-Belin.fr"
 	Copyright = "© Cédric Belin"
+	DefaultCommandPrefix = "Php"
 	Description = "Minify PHP source code by removing comments and whitespace."
 	GUID = "ebfa3521-4dd2-43bf-a54f-404d9b7f4c5d"
 
 	AliasesToExport = @()
 	CmdletsToExport = @()
-	FunctionsToExport = @()
 	VariablesToExport = @()
+
+	FunctionsToExport = @(
+
+	)
 
 	NestedModules = @(
 		"src/FastTransformer.psm1"
@@ -22,9 +26,9 @@
 
 	PrivateData = @{
 		PSData = @{
-			LicenseUri = "https://github.com/cedx/php-minifier.ps1/blob/main/License.md"
+			LicenseUri = "https://raw.githubusercontent.com/cedx/php-minifier.ps1/main/License.md"
 			ProjectUri = "https://github.com/cedx/php-minifier.ps1"
-			ReleaseNotes = "https://github.com/cedx/php-minifier.ps1/blob/main/ChangeLog.md"
+			ReleaseNotes = "https://github.com/cedx/php-minifier.ps1/releases"
 			Tags = "compress", "minify", "php"
 		}
 	}
