@@ -20,7 +20,7 @@ class FastTransformer: ITransformer {
 	.SYNOPSIS
 		The path to the PHP executable.
 	#>
-	hidden [string] $executable
+	hidden [ValidateNotNullOrWhiteSpace()] [string] $Executable
 
 	<#
 	.SYNOPSIS
@@ -33,17 +33,17 @@ class FastTransformer: ITransformer {
 		Creates a new fast transformer.
 	#>
 	FastTransformer() {
-		$this.executable = "php"
+		$this.Executable = "php"
 	}
 
 	<#
 	.SYNOPSIS
 		Creates a new fast transformer.
-	.PARAMETER $executable
+	.PARAMETER Executable
 		The path to the PHP executable.
 	#>
-	FastTransformer([string] $executable) {
-		$this.executable = $executable
+	FastTransformer([string] $Executable) {
+		$this.Executable = $Executable
 	}
 
 	<#
@@ -68,7 +68,7 @@ class FastTransformer: ITransformer {
 		$port = [FastTransformer]::GetPort()
 
 		$this.baseUri = "http://${address}:$port/"
-		$this.job = & $this.executable -S ${address}:$port -t (Join-Path $PSScriptRoot "../www") &
+		$this.job = & $this.Executable -S ${address}:$port -t (Join-Path $PSScriptRoot "../www") &
 		Start-Sleep 1
 		return $port
 	}
@@ -76,14 +76,14 @@ class FastTransformer: ITransformer {
 	<#
 	.SYNOPSIS
 		Processes a PHP script.
-	.PARAMETER $file
+	.PARAMETER File
 		The path to the PHP script.
 	.OUTPUTS
 		The transformed script.
 	#>
-	[string] Transform([string] $file) {
+	[string] Transform([string] $File) {
 		$this.Listen()
-		$uri = [uri]::new($this.baseUri, "index.php?file=$([uri]::EscapeDataString((Resolve-Path $file)))")
+		$uri = [uri]::new($this.baseUri, "index.php?file=$([uri]::EscapeDataString((Resolve-Path $File)))")
 		return (Invoke-WebRequest $uri).Content
 	}
 

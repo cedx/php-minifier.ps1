@@ -10,24 +10,24 @@ class SafeTransformer: ITransformer {
 	.SYNOPSIS
 		The path to the PHP executable.
 	#>
-	hidden [string] $executable
+	hidden [ValidateNotNullOrWhiteSpace()] [string] $Executable
 
 	<#
 	.SYNOPSIS
 		Creates a new safe transformer.
 	#>
 	SafeTransformer() {
-		$this.executable = "php"
+		$this.Executable = "php"
 	}
 
 	<#
 	.SYNOPSIS
 		Creates a new safe transformer.
-	.PARAMETER $executable
+	.PARAMETER Executable
 		The path to the PHP executable.
 	#>
-	SafeTransformer([string] $executable) {
-		$this.executable = $executable
+	SafeTransformer([string] $Executable) {
+		$this.Executable = $Executable
 	}
 
 	<#
@@ -39,12 +39,12 @@ class SafeTransformer: ITransformer {
 	<#
 	.SYNOPSIS
 		Processes a PHP script.
-	.PARAMETER $file
+	.PARAMETER File
 		The path to the PHP script.
 	.OUTPUTS
 		The transformed script.
 	#>
-	[string] Transform([string] $file) {
-		return & $this.executable -w (Resolve-Path $file)
+	[string] Transform([string] $File) {
+		return & $this.Executable -w (Resolve-Path $File)
 	}
 }

@@ -4,43 +4,43 @@ using module ./SafeTransformer.psm1
 <#
 .SYNOPSIS
 	Minifies PHP source code by removing comments and whitespace.
-.PARAMETER $path
+.PARAMETER Path
 	The path to the input file or directory.
-.PARAMETER $destinationPath
+.PARAMETER DestinationPath
 	The path to the output directory.
-.PARAMETER $binary
+.PARAMETER Binary
 	The path to the PHP executable.
-.PARAMETER $extension
+.PARAMETER Extension
 	The extension of the PHP files to process.
-.PARAMETER $mode
+.PARAMETER Mode
 	The operation mode of the minifier.
-.PARAMETER $quiet
+.PARAMETER Quiet
 	Whether to silence the minifier output.
-.PARAMETER $recurse
+.PARAMETER Recurse
 	Whether to process the input directory recursively.
 #>
 function Compress-Php {
 	[OutputType([void])]
 	param (
-		[Parameter(Mandatory, Position = 0)] [ValidateScript({ Test-Path $_ })] [string] $path,
-		[Parameter(Mandatory, Position = 1)] [ValidateScript({ Test-Path $_ -IsValid })] [string] $destinationPath,
-		[ValidateNotNullOrWhiteSpace()] [string] $binary = "php",
-		[ValidateNotNullOrWhiteSpace()] [string] $extension = "php",
-		[TransformMode] $mode = [TransformMode]::Safe,
-		[switch] $quiet,
-		[switch] $recurse
+		[Parameter(Mandatory, Position = 0)] [ValidateScript({ Test-Path $_ })] [string] $Path,
+		[Parameter(Mandatory, Position = 1)] [ValidateScript({ Test-Path $_ -IsValid })] [string] $DestinationPath,
+		[ValidateNotNullOrWhiteSpace()] [string] $Binary = "php",
+		[ValidateNotNullOrWhiteSpace()] [string] $Extension = "php",
+		[TransformMode] $Mode = [TransformMode]::Safe,
+		[switch] $Quiet,
+		[switch] $Recurse
 	)
 
 	begin {
-		$transformer = $mode -eq [TransformMode]::Fast ? [FastTransformer] $binary : [SafeTransformer] $binary
+		$transformer = $Mode -eq [TransformMode]::Fast ? [FastTransformer] $Binary : [SafeTransformer] $Binary
 	}
 	process {
-		$isFilePath = Test-Path $path -PathType Leaf
-		if (-not $destinationPath) { $destinationPath = $isFilePath ? (Split-Path $path) : $path }
+		$isFilePath = Test-Path $Path -PathType Leaf
+		if (-not $DestinationPath) { $DestinationPath = $isFilePath ? (Split-Path $Path) : $Path }
 
-		$files = $isFilePath ? @($path) : (Get-ChildItem "$path/*.$extension" -Recurse=$recurse)
+		$files = $isFilePath ? @($Path) : (Get-ChildItem "$Path/*.$Extension" -Recurse:$Recurse)
 		foreach ($file in $files) {
-			$relativePath = Resolve-Path $file -Relative -RelativeBasePath $path
+			$relativePath = Resolve-Path $file -Relative -RelativeBasePath $Path
 		}
 	}
 	clean {

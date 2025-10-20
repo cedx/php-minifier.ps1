@@ -15,12 +15,12 @@ class ITransformer: IDisposable {
 	<#
 	.SYNOPSIS
 		Processes a PHP script.
-	.PARAMETER $file
+	.PARAMETER File
 		The path to the PHP script.
 	.OUTPUTS
 		The transformed script.
 	#>
-	[string] Transform([string] $file) {
+	[string] Transform([string] $File) {
 		throw [NotImplementedException]::new()
 	}
 }
