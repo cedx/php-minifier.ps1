@@ -1,3 +1,4 @@
+using namespace System.Diagnostics.CodeAnalysis
 using module ../src/SafeTransformer.psm1
 
 <#
@@ -6,8 +7,10 @@ using module ../src/SafeTransformer.psm1
 #>
 Describe "SafeTransformer" {
 	Context "Transform" {
-		BeforeAll { $transformer = [SafeTransformer]::new() }
-		AfterAll { $transformer.Dispose() }
+		BeforeAll {
+			[SuppressMessage("PSUseDeclaredVarsMoreThanAssignments", "")]
+			$transformer = [SafeTransformer]::new()
+		}
 
 		It "should remove comments and whitespace" -TestCases @(
 			@{ Expected = "<?= 'Hello World!' ?>" }
@@ -16,6 +19,10 @@ Describe "SafeTransformer" {
 			@{ Expected = "__construct() { `$this->property" }
 		) {
 			$transformer.Transform("res/Sample.php") | Should -BeLikeExactly "*$expected*"
+		}
+
+		AfterAll {
+			$transformer.Dispose()
 		}
 	}
 }

@@ -1,3 +1,4 @@
+using namespace System.Diagnostics.CodeAnalysis
 using module ../src/FastTransformer.psm1
 
 <#
@@ -15,8 +16,10 @@ Describe "FastTransformer" {
 	}
 
 	Context "Transform" {
-		BeforeAll { $transformer = [FastTransformer]::new() }
-		AfterAll { $transformer.Dispose() }
+		BeforeAll {
+			[SuppressMessage("PSUseDeclaredVarsMoreThanAssignments", "")]
+			$transformer = [FastTransformer]::new()
+		}
 
 		It "should remove comments and whitespace" -TestCases @(
 			@{ Expected = "<?= 'Hello World!' ?>" }
@@ -25,6 +28,10 @@ Describe "FastTransformer" {
 			@{ Expected = "__construct() { `$this->property" }
 		) {
 			$transformer.Transform("res/Sample.php") | Should -BeLikeExactly "*$expected*"
+		}
+
+		AfterAll {
+			$transformer.Dispose()
 		}
 	}
 }
