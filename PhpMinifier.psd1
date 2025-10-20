@@ -14,7 +14,9 @@
 	VariablesToExport = @()
 
 	FunctionsToExport = @(
-
+		"Compress-Php"
+		"New-FastTransformer"
+		"New-SafeTransformer"
 	)
 
 	NestedModules = @(
