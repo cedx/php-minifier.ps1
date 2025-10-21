@@ -20,6 +20,7 @@ using module ./SafeTransformer.psm1
 	Whether to process the input directory recursively.
 #>
 function Compress-Php {
+	[CmdletBinding()]
 	[OutputType([void])]
 	param (
 		[Parameter(Mandatory, Position = 0)] [ValidateScript({ Test-Path $_ })] [string] $Path,
@@ -59,6 +60,7 @@ function Compress-Php {
 	The newly created transformer.
 #>
 function New-FastTransformer {
+	[CmdletBinding()]
 	[OutputType([Release])]
 	[SuppressMessage("PSUseShouldProcessForStateChangingFunctions", "")]
 	param (
@@ -83,6 +85,7 @@ function New-FastTransformer {
 	The newly created transformer.
 #>
 function New-SafeTransformer {
+	[CmdletBinding()]
 	[OutputType([Release])]
 	[SuppressMessage("PSUseShouldProcessForStateChangingFunctions", "")]
 	param (
