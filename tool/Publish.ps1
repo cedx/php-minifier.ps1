@@ -6,7 +6,7 @@ $version = (Import-PowerShellDataFile $module).ModuleVersion
 git tag "v$version"
 git push origin "v$version"
 
-$output = "var/package"
+$output = "var/Package"
 New-Item $output -ItemType Directory
 Copy-Item $module $output
 Copy-Item *.md $output

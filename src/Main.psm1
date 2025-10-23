@@ -15,9 +15,9 @@ using module ./SafeTransformer.psm1
 .PARAMETER Mode
 	The operation mode of the minifier.
 .PARAMETER Quiet
-	Whether to silence the minifier output.
+	Value indicating whether to silence the minifier output.
 .PARAMETER Recurse
-	Whether to process the input directory recursively.
+	Value indicating whether to process the input directory recursively.
 #>
 function Compress-Php {
 	[CmdletBinding()]
