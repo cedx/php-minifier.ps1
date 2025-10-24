@@ -83,8 +83,9 @@ class FastTransformer: ITransformer {
 	#>
 	[string] Transform([string] $File) {
 		$this.Listen()
-		$uri = [uri]::new($this.baseUri, "index.php?file=$([uri]::EscapeDataString((Resolve-Path $File)))")
-		return (Invoke-WebRequest $uri).Content
+		$query = @{ file = Resolve-Path $File }
+		$uri = [uri]::new($this.baseUri, "index.php")
+		return (Invoke-WebRequest $uri -Body $query).Content
 	}
 
 	<#
