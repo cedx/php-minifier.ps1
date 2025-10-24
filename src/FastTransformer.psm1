@@ -12,12 +12,6 @@ class FastTransformer: ITransformer {
 
 	<#
 	.SYNOPSIS
-		The base URL of the PHP service.
-	#>
-	hidden [uri] $baseUri
-
-	<#
-	.SYNOPSIS
 		The path to the PHP executable.
 	#>
 	hidden [ValidateNotNullOrWhiteSpace()] [string] $Executable
@@ -26,7 +20,13 @@ class FastTransformer: ITransformer {
 	.SYNOPSIS
 		The underlying PHP job.
 	#>
-	hidden [Job] $job
+	hidden [Job] $Job
+
+	<#
+	.SYNOPSIS
+		The port that the PHP process is listening on.
+	#>
+	hidden [int] $Port = -1
 
 	<#
 	.SYNOPSIS
@@ -51,8 +51,8 @@ class FastTransformer: ITransformer {
 		Releases any resources associated with this object.
 	#>
 	[void] Dispose() {
-		if ($this.job) { Remove-Job $this.job -Force }
-		$this.baseUri = $this.job = $null
+		if ($this.Job) { Remove-Job $this.Job -Force }
+		$this.Job = $null
 	}
 
 	<#
@@ -62,15 +62,12 @@ class FastTransformer: ITransformer {
 		The TCP port used by the PHP process.
 	#>
 	[int] Listen() {
-		if ($this.job) { return $this.baseUri.Port }
+		if ($this.Job) { return $this.Port }
 
-		$address = [ipaddress]::Loopback
-		$port = [FastTransformer]::GetPort()
-
-		$this.baseUri = "http://${address}:$port/"
-		$this.job = & $this.Executable -S ${address}:$port -t (Join-Path $PSScriptRoot "../www") &
+		$this.Port = [FastTransformer]::GetPort()
+		$this.Job = & $this.Executable -S "$([ipaddress]::Loopback):$($this.Port)" -t (Join-Path $PSScriptRoot "../www") &
 		Start-Sleep 1
-		return $port
+		return $this.Port
 	}
 
 	<#
@@ -82,10 +79,9 @@ class FastTransformer: ITransformer {
 		The transformed script.
 	#>
 	[string] Transform([string] $File) {
-		$this.Listen()
 		$query = @{ file = Resolve-Path $File }
-		$uri = [uri]::new($this.baseUri, "index.php")
-		return (Invoke-WebRequest $uri -Body $query).Content
+		$tcpPort = $this.Listen()
+		return (Invoke-WebRequest "http://$([ipaddress]::Loopback):$tcpPort/index.php" -Body $query).Content
 	}
 
 	<#
