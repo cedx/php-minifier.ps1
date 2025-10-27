@@ -14,7 +14,8 @@ class FastTransformer: ITransformer {
 	.SYNOPSIS
 		The path to the PHP executable.
 	#>
-	hidden [ValidateNotNullOrWhiteSpace()] [string] $Executable
+	[ValidateNotNullOrWhiteSpace()]
+	hidden [string] $Executable
 
 	<#
 	.SYNOPSIS
@@ -92,14 +93,13 @@ class FastTransformer: ITransformer {
 	#>
 	hidden static [int] GetPort() {
 		$tcpListener = $null
-
 		try {
 			$tcpListener = [TcpListener]::new([ipaddress]::Loopback, 0)
 			$tcpListener.Start()
 			return ([IPEndpoint] $tcpListener.LocalEndpoint).Port
 		}
 		finally {
-			if ($tcpListener) { $tcpListener.Dispose() }
+			${tcpListener}?.Dispose()
 		}
 	}
 }

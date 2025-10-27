@@ -10,7 +10,8 @@ class SafeTransformer: ITransformer {
 	.SYNOPSIS
 		The path to the PHP executable.
 	#>
-	hidden [ValidateNotNullOrWhiteSpace()] [string] $Executable
+	[ValidateNotNullOrWhiteSpace()]
+	hidden [string] $Executable
 
 	<#
 	.SYNOPSIS
