@@ -8,6 +8,7 @@
 	DefaultCommandPrefix = "Php"
 	Description = "Minify PHP source code by removing comments and whitespace."
 	GUID = "ebfa3521-4dd2-43bf-a54f-404d9b7f4c5d"
+	PowerShellVersion = "7.5"
 
 	AliasesToExport = @()
 	CmdletsToExport = @()
