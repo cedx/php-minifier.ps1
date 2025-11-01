@@ -1,14 +1,14 @@
 ﻿@{
+	DefaultCommandPrefix = "Php"
 	ModuleVersion = "0.1.0"
+	PowerShellVersion = "7.5"
 	RootModule = "src/Main.psm1"
 
 	Author = "Cédric Belin <cedx@outlook.com>"
 	CompanyName = "Cedric-Belin.fr"
 	Copyright = "© Cédric Belin"
-	DefaultCommandPrefix = "Php"
 	Description = "Minify PHP source code by removing comments and whitespace."
 	GUID = "ebfa3521-4dd2-43bf-a54f-404d9b7f4c5d"
-	PowerShellVersion = "7.5"
 
 	AliasesToExport = @()
 	CmdletsToExport = @()
