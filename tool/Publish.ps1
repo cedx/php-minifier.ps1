@@ -1,4 +1,4 @@
-. $PSScriptRoot/Default.ps1
+. "$PSScriptRoot/Default.ps1"
 
 "Publishing the package..."
 $module = Get-Item "PhpMinifier.psd1"
@@ -14,4 +14,4 @@ Copy-Item src $output -Recurse
 Copy-Item www $output -Recurse
 
 Compress-PSResource $output var
-Publish-PSResource -ApiKey $Env:PSGALLERY_API_KEY -NupkgPath "var/$($module.BaseName).$version.nupkg"
+Publish-PSResource -ApiKey $Env:PSGALLERY_API_KEY -NupkgPath "var/$($module.BaseName).$version.nupkg" -Verbose -WhatIf

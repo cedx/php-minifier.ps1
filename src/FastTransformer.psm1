@@ -66,7 +66,7 @@ class FastTransformer: ITransformer {
 		if ($this.Job) { return $this.Port }
 
 		$this.Port = [FastTransformer]::GetPort()
-		$this.Job = & $this.Executable -S "$([ipaddress]::Loopback):$($this.Port)" -t (Join-Path $PSScriptRoot "../www") &
+		$this.Job = & $this.Executable -S "$([ipaddress]::Loopback):$($this.Port)" -t (Join-Path $PSScriptRoot "../www" -Resolve) &
 		Start-Sleep 1
 		return $this.Port
 	}
