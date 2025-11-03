@@ -1,3 +1,4 @@
+using namespace System.Diagnostics.CodeAnalysis
 using module ./FastTransformer.psm1
 using module ./SafeTransformer.psm1
 
@@ -17,18 +18,35 @@ using module ./SafeTransformer.psm1
 .PARAMETER Quiet
 	Value indicating whether to silence the minifier output.
 .PARAMETER Recurse
-	Value indicating whether to process the input directory recursively.
+	Value indicating whether to process the input path recursively.
 #>
 function Compress-Php {
 	[CmdletBinding()]
 	[OutputType([void])]
 	param (
-		[Parameter(Mandatory, Position = 0)] [ValidateScript({ Test-Path $_ })] [string] $Path,
-		[Parameter(Mandatory, Position = 1)] [ValidateScript({ Test-Path $_ -IsValid })] [string] $DestinationPath,
-		[ValidateNotNullOrWhiteSpace()] [string] $Binary = "php",
-		[ValidateNotNullOrWhiteSpace()] [string] $Extension = "php",
+		[Parameter(Mandatory, Position = 0)]
+		[ValidateScript({ Test-Path $_ }, ErrorMessage = "The input file or directory does not exist.")]
+		[string] $Path,
+
+		[Parameter(Mandatory, Position = 1)]
+		[ValidateScript({ Test-Path $_ -IsValid }, ErrorMessage = "The output path is invalid.")]
+		[string] $DestinationPath,
+
+		[Parameter()]
+		[ValidateNotNullOrWhiteSpace()]
+		[string] $Binary = "php",
+
+		[Parameter()]
+		[ValidateNotNullOrWhiteSpace()]
+		[string] $Extension = "php",
+
+		[Parameter()]
 		[TransformMode] $Mode = [TransformMode]::Safe,
+
+		[Parameter()]
 		[switch] $Quiet,
+
+		[Parameter()]
 		[switch] $Recurse
 	)
 
