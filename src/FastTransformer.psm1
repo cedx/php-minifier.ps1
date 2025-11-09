@@ -92,14 +92,10 @@ class FastTransformer: ITransformer {
 		The TCP port chosen by the system.
 	#>
 	hidden static [int] GetPort() {
-		$tcpListener = $null
-		try {
-			$tcpListener = [TcpListener]::new([ipaddress]::Loopback, 0)
-			$tcpListener.Start()
-			return ([IPEndpoint] $tcpListener.LocalEndpoint).Port
-		}
-		finally {
-			${tcpListener}?.Dispose()
-		}
+		$tcpListener = [TcpListener]::new([ipaddress]::Loopback, 0)
+		$tcpListener.Start()
+		$tcpPort = ([IPEndpoint] $tcpListener.LocalEndpoint).Port
+		$tcpListener.Stop()
+		return $tcpPort
 	}
 }
